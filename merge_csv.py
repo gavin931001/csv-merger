@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-XLSX檔案去重整合工具
+CSV檔案去重整合工具
 功能：
-1. 讀取指定資料夾中的所有xlsx檔案
+1. 讀取指定資料夾中的所有csv檔案
 2. 逐個整合檔案並顯示重複的筆數及詳細行位
 3. 最終輸出去重後的CSV檔案
 """
@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 
-def create_input_folder(folder_name='xlsx_files'):
+def create_input_folder(folder_name='parsed_questions_csv'):
     """建立輸入資料夾"""
     folder_path = Path(folder_name)
     if not folder_path.exists():
@@ -24,12 +24,12 @@ def create_input_folder(folder_name='xlsx_files'):
     return folder_path
 
 
-def merge_xlsx_files(input_folder='xlsx_files', output_file='merged_output.csv'):
+def merge_csv_files(input_folder='parsed_questions_csv', output_file='merged_output.csv'):
     """
-    整合xlsx檔案並去重
+    整合csv檔案並去重
     
     參數:
-        input_folder: 包含xlsx檔案的資料夾路徑
+        input_folder: 包含csv檔案的資料夾路徑
         output_file: 輸出的CSV檔案名稱
     """
     folder_path = Path(input_folder)
@@ -39,15 +39,15 @@ def merge_xlsx_files(input_folder='xlsx_files', output_file='merged_output.csv')
         print(f"✗ 錯誤: 資料夾 '{input_folder}' 不存在")
         return
     
-    # 取得所有xlsx檔案
-    xlsx_files = list(folder_path.glob('*.xlsx'))
+    # 取得所有csv檔案
+    csv_files = list(folder_path.glob('*.csv'))
     
-    if not xlsx_files:
-        print(f"✗ 警告: 在 '{input_folder}' 資料夾中沒有找到xlsx檔案")
-        print(f"請將xlsx檔案放入 '{folder_path.absolute()}' 資料夾後再執行")
+    if not csv_files:
+        print(f"✗ 警告: 在 '{input_folder}' 資料夾中沒有找到csv檔案")
+        print(f"請將csv檔案放入 '{folder_path.absolute()}' 資料夾後再執行")
         return
     
-    print(f"\n找到 {len(xlsx_files)} 個xlsx檔案")
+    print(f"\n找到 {len(csv_files)} 個csv檔案")
     print("=" * 60)
     
     # 用於儲存所有資料的DataFrame
@@ -55,13 +55,13 @@ def merge_xlsx_files(input_folder='xlsx_files', output_file='merged_output.csv')
     total_rows_before = 0
     total_duplicates = 0
     
-    # 逐個讀取並整合xlsx檔案
-    for i, file_path in enumerate(xlsx_files, 1):
-        print(f"\n[{i}/{len(xlsx_files)}] 正在處理: {file_path.name}")
+    # 逐個讀取並整合csv檔案
+    for i, file_path in enumerate(csv_files, 1):
+        print(f"\n[{i}/{len(csv_files)}] 正在處理: {file_path.name}")
         
         try:
-            # 讀取xlsx檔案
-            df = pd.read_excel(file_path)
+            # 讀取csv檔案
+            df = pd.read_csv(file_path, encoding='utf-8')
             rows_in_file = len(df)
             print(f"  - 檔案包含 {rows_in_file} 筆資料（原始欄位：{len(df.columns)} 欄）")
             
@@ -140,16 +140,16 @@ def merge_xlsx_files(input_folder='xlsx_files', output_file='merged_output.csv')
 def main():
     """主函式"""
     print("=" * 60)
-    print("XLSX檔案去重整合工具")
+    print("CSV檔案去重整合工具")
     print("=" * 60)
     
     # 建立輸入資料夾
-    input_folder = 'xlsx_files'
+    input_folder = 'parsed_questions_csv'
     create_input_folder(input_folder)
     
-    # 整合xlsx檔案並匯出csv
+    # 整合csv檔案並匯出csv
     print("\n開始整合處理...")
-    merge_xlsx_files(input_folder=input_folder, output_file='merged_output.csv')
+    merge_csv_files(input_folder=input_folder, output_file='merged_output.csv')
     
     print("\n" + "=" * 60)
     print("程式執行完畢")
