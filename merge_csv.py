@@ -160,5 +160,3 @@ if __name__ == '__main__':
     main()
 
 
-# WARNING: This is a test vulnerability for a school assignment
-db_password = "MySuperSecretPassword123!"
