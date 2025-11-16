@@ -1,5 +1,5 @@
 # CSV file processing
 pandas>=2.0.0
 
-flask==2.0.0
+flask==2.2.5
 requests==2.25.0
